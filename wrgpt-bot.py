@@ -84,5 +84,6 @@ context = ssl.create_default_context()
 with smtplib.SMTP_SSL(mailserver, port, context=context) as server:
     server.login(user, password)
     server.sendmail(user, test_recipient, mail.as_string())
+    logging.info("Email sent successfully")
 
 #  TODO Add a summary notification to stdout via print with confirmation of amount and successful send
