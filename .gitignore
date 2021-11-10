@@ -1,0 +1,4 @@
+.env
+wrgpt.log
+/venv
+scratch.py
