@@ -1,5 +1,6 @@
 import smtplib, ssl
-from smtplib import SMTPHeloError, SMTPException, SMTPConnectError, SMTP
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import os
 from dotenv import load_dotenv
 import sys
@@ -30,6 +31,7 @@ logging.basicConfig(filename='wrgpt.log', filemode='a', format="%(asctime)s - %(
 
 #  Args
 #  TODO add sticky flag -s
+#  TODO add some housekeeping arguments e.g. WHAT, JUSTME, etc.
 parser = argparse.ArgumentParser(description="Automate wrgpt poker actions")
 parser.add_argument('play', metavar='Play', type=str.lower, choices=['bet', 'call', 'fold', 'make', 'raise', 'pot', 'jam', 'undo'], help="What is your play?")
 parser.add_argument("amount", metavar="Amount", nargs='?', help="How much?", type=int, default=1)
@@ -71,22 +73,16 @@ elif args.play not in money_plays:
 
 ######  EMAIL  #######
 
-email_body = f"""\
-Subject: {subject}
+mail = MIMEMultipart()
+mail["Subject"] = subject
+mail["From"] = user
+mail["To"] = test_recipient
+mail.attach(MIMEText(message, "plain"))
 
-{message}"""
-
-#  Try to connect to mailserver
-conn = smtplib.SMTP(mailserver, port=port)
-
-try:
-    conn.login(user, password)
-    logging.debug(f'Connected to server')
-except [SMTPHeloError, SMTPException, SMTPConnectError] as e:
-    print(e)
-    logging.error(f'Error connecting to server: {e}')
-    sys.exit()
-conn.sendmail(user, test_recipient,email_body)
-
+#  Try to connect to mailserver and send
+context = ssl.create_default_context()
+with smtplib.SMTP_SSL(mailserver, port, context=context) as server:
+    server.login(user, password)
+    server.sendmail(user, test_recipient, mail.as_string())
 
 #  TODO Add a summary notification to stdout via print with confirmation of amount and successful send
