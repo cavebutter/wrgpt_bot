@@ -27,11 +27,11 @@ any = ['*', 'any']
 yesno = ['yes', 'no', "y", 'n', 'Yes', 'No', 'YES', 'NO']
 
 # Logging
-logging.basicConfig(filename='wrgpt.log', filemode='a', format="%(asctime)s - %(levelname)s - %(message)s", level=logging.DEBUG)
+logging.basicConfig(filename='wrgpt.log', filemode='a', format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
 
 #  Args
 #  TODO add sticky flag -s
-#  TODO add some housekeeping arguments e.g. WHAT, JUSTME, etc.
+#  TODO add some housekeeping arguments e.g. JUSTME, etc.  These take >1 arguments.  Maybe as options?
 parser = argparse.ArgumentParser(description="Automate wrgpt poker actions")
 parser.add_argument('play', metavar='Play', type=str.lower, choices=['bet',
                                                                      'call',
@@ -51,7 +51,6 @@ logging.debug('Parsed arguments')
 
 #  CASE money_play AND usable amount
 #  TODO more graceful exception handling of non-int amount
-#  Passed test
 if args.play in money_plays and args.amount > 1:
     message = args.play.upper() + " $" + str(args.amount)
     logging.debug(f'Play is {args.play} and amount is greater than 1: {args.amount}')
@@ -59,7 +58,6 @@ if args.play in money_plays and args.amount > 1:
 
 
 #  CASE money_play AND amount == 1, confirm intent
-#  Passed test
 elif args.play in money_plays and args.amount == 1:
     decision = ''
     logging.debug(f'Money Play ({args.play}) with no amount.')

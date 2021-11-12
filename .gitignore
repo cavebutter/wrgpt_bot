@@ -2,3 +2,5 @@
 wrgpt.log
 /venv
 scratch.py
+/build
+/dist
