@@ -15,7 +15,7 @@ password = os.getenv("password")
 mailserver = os.getenv("mailserver")
 port = os.getenv("port")
 id = os.getenv("id")
-#dealer = os.getenv("dealer")
+dealer = os.getenv("dealer")
 test_recipient = 'cavebutter@gmail.com'
 
 
@@ -33,7 +33,16 @@ logging.basicConfig(filename='wrgpt.log', filemode='a', format="%(asctime)s - %(
 #  TODO add sticky flag -s
 #  TODO add some housekeeping arguments e.g. WHAT, JUSTME, etc.
 parser = argparse.ArgumentParser(description="Automate wrgpt poker actions")
-parser.add_argument('play', metavar='Play', type=str.lower, choices=['bet', 'call', 'fold', 'make', 'raise', 'pot', 'jam', 'undo'], help="What is your play?")
+parser.add_argument('play', metavar='Play', type=str.lower, choices=['bet',
+                                                                     'call',
+                                                                     'fold',
+                                                                     'make',
+                                                                     'raise',
+                                                                     'pot',
+                                                                     'jam',
+                                                                     'undo',
+                                                                     'what',
+                                                                     ], help="What is your play?")
 parser.add_argument("amount", metavar="Amount", nargs='?', help="How much?", type=int, default=1)
 args = parser.parse_args()
 logging.debug('Parsed arguments')
@@ -76,14 +85,14 @@ elif args.play not in money_plays:
 mail = MIMEMultipart()
 mail["Subject"] = subject
 mail["From"] = user
-mail["To"] = test_recipient
+mail["To"] = dealer
 mail.attach(MIMEText(message, "plain"))
 
 #  Try to connect to mailserver and send
 context = ssl.create_default_context()
 with smtplib.SMTP_SSL(mailserver, port, context=context) as server:
     server.login(user, password)
-    server.sendmail(user, test_recipient, mail.as_string())
+    server.sendmail(user, dealer, mail.as_string())
     logging.info("Email sent successfully")
 
 #  TODO Add a summary notification to stdout via print with confirmation of amount and successful send
