@@ -42,6 +42,7 @@ parser.add_argument('play', metavar='Play', type=str.lower, choices=['bet',
                                                                      'jam',
                                                                      'undo',
                                                                      'what',
+                                                                     'check',
                                                                      ], help="What is your play?")
 parser.add_argument("amount", metavar="Amount", nargs='?', help="How much?", type=int, default=1)
 args = parser.parse_args()
