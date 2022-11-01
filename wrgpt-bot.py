@@ -12,8 +12,8 @@ import argparse
 load_dotenv()
 user = os.getenv("user")
 password = os.getenv("password")
-mailserver = os.getenv("mailserver")
-port = os.getenv("port")
+mailserver = os.getenv("smtp_server")
+port = os.getenv("smtp_port")
 id = os.getenv("id")
 dealer = os.getenv("dealer")
 test_recipient = 'cavebutter@gmail.com'
