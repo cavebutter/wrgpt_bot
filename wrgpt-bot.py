@@ -17,7 +17,9 @@ port = os.getenv("smtp_port")
 id = os.getenv("id")
 dealer = os.getenv("dealer")
 test_recipient = 'cavebutter@gmail.com'
+logfile_dir=os.getenv("logfile_dir")
 
+logfile = os.path.join(logfile_dir, "wrgpt.log")
 
 #  Other variables
 #  TODO apply string methods for yes/no input so that it's case insensitive
@@ -27,7 +29,7 @@ any = ['*', 'any']
 yesno = ['yes', 'no', "y", 'n', 'Yes', 'No', 'YES', 'NO']
 
 # Logging
-logging.basicConfig(filename='wrgpt.log', filemode='a', format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
+logging.basicConfig(filename=logfile, filemode='a', format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
 
 #  Args
 #  TODO add sticky flag -s
