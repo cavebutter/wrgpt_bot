@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 import sys
 import logging
+import mail_functions as m
 import argparse
 
 
@@ -13,6 +14,7 @@ load_dotenv()
 user = os.getenv("user")
 password = os.getenv("password")
 mailserver = os.getenv("smtp_server")
+imap_server = os.getenv("imap_server")
 port = os.getenv("smtp_port")
 id = os.getenv("id")
 dealer = os.getenv("dealer")
@@ -47,6 +49,7 @@ parser.add_argument('play', metavar='Play', type=str.lower, choices=['bet',
                                                                      'undo',
                                                                      'what',
                                                                      'check',
+                                                                     'status',
                                                                      ], help="What is your play?")
 parser.add_argument("amount", metavar="Amount", nargs='?', help="How much?", type=int, default=1)
 args = parser.parse_args()
@@ -54,9 +57,16 @@ logging.debug('Parsed arguments')
 
 #######  PLAYS AND AMOUNTS  ######
 
+
+# CASE play is status
+if args.play == "status":
+    m.display_status(imap_server, user, password)
+    message = "Status requested"
+    logging.info(message)
+    sys.exit()
 #  CASE money_play AND usable amount
 #  TODO more graceful exception handling of non-int amount
-if args.play in money_plays and args.amount > 1:
+elif args.play in money_plays and args.amount > 1:
     message = args.play.upper() + " $" + str(args.amount)
     logging.debug(f'Play is {args.play} and amount is greater than 1: {args.amount}')
     logging.info(f'{message}')
