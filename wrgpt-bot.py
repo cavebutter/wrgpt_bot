@@ -27,12 +27,13 @@ any = ['*', 'any']
 yesno = ['yes', 'no', "y", 'n', 'Yes', 'No', 'YES', 'NO']
 
 # Logging
-logging.basicConfig(filename='wrgpt.log', filemode='a', format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
+logging.basicConfig(filename='/Users/Jayco/projects/wrgpt/wrgpt.log', filemode='a', format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
 
 #  Args
 #  TODO add sticky flag -s
 #  TODO add some housekeeping arguments e.g. JUSTME, etc.  These take >1 arguments.  Maybe as options?
-parser = argparse.ArgumentParser(description="Automate wrgpt poker actions")
+parser = argparse.ArgumentParser(prog="WRGOT Poker Robot", description="Automate wrgpt poker actions",
+                                 epilog="This help probably was not much help")
 parser.add_argument('play', metavar='Play', type=str.lower, choices=['bet',
                                                                      'call',
                                                                      'fold',
