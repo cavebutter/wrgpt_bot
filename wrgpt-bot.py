@@ -7,6 +7,7 @@ import sys
 import logging
 import mail_functions as m
 import argparse
+import subprocess as s
 
 
 #  Environment Stuff
@@ -50,12 +51,21 @@ parser.add_argument('play', metavar='Play', type=str.lower, choices=['bet',
                                                                      'what',
                                                                      'check',
                                                                      'status',
+                                                                     'hand',
                                                                      ], help="What is your play?")
 parser.add_argument("amount", metavar="Amount", nargs='?', help="How much?", type=int, default=1)
 args = parser.parse_args()
 logging.debug('Parsed arguments')
 
 #######  PLAYS AND AMOUNTS  ######
+
+
+# CASE play is hand
+if args.play == "hand":
+    hand = m.fetch_hand(imap_server, user, password)
+    logging.info("Hand Requested")
+    print(hand)
+    sys.exit()
 
 
 # CASE play is status
