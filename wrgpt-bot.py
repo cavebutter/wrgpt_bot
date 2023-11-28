@@ -67,13 +67,13 @@ if args.play == "hand":
     print(hand)
     sys.exit()
 
-
 # CASE play is status
-if args.play == "status":
+elif args.play == "status":
     m.display_status(imap_server, user, password)
     message = "Status requested"
     logging.info(message)
     sys.exit()
+
 #  CASE money_play AND usable amount
 #  TODO more graceful exception handling of non-int amount
 elif args.play in money_plays and args.amount > 1:
