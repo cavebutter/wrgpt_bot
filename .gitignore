@@ -4,3 +4,5 @@ wrgpt.log
 scratch.py
 /build
 /dist
+.idea/
+__pycache__/
